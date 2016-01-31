@@ -20,7 +20,7 @@ class Player(object):
 
         for external_player in supported_external_players:
             proc = subprocess.Popen(
-                    ["which", external_player[0]], stdout=subprocess.PIPE)
+                ["which", external_player[0]], stdout=subprocess.PIPE)
             env_bin_path = proc.communicate()[0].strip()
             if (env_bin_path and os.path.exists(env_bin_path)):
                 self.external_player = external_player
@@ -34,7 +34,10 @@ class Player(object):
         self.current_song = song
         self.player_process = subprocess.Popen(
             self.external_player + [self.current_song.url],
-            stdin=subprocess.PIPE)
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
         self.is_playing = True
 
     def stop(self):
