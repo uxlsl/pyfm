@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-
+import os
 import sys
 import subprocess
 import time
@@ -14,7 +14,7 @@ from functools import wraps
 
 import urwid
 
-from .douban import Douban
+from .kuwo import Kuwo
 from .song import Song
 from .player import Player
 from .scrobbler import Scrobbler
@@ -22,6 +22,8 @@ from .notifier import Notifier
 from .config import Config
 from .ui import ChannelButton, ChannelListBox
 
+
+# root logger config
 logger = logging.getLogger()
 
 
@@ -47,7 +49,7 @@ $ pyfm config
 """
 
 
-class Doubanfm(object):
+class kuwofm(object):
 
     def __init__(self):
         self.douban = None
@@ -83,7 +85,7 @@ class Doubanfm(object):
     def _setup_api_tools(self):
         # Init API tools
         self.player = Player()
-        self.douban = Douban(
+        self.douban = Kuwo(
             self.email, self.password, self.user_id, self.expire, self.token, self.user_name, self.cookies)
 
         if self.last_fm_username is None or self.last_fm_username == "":
@@ -124,11 +126,11 @@ class Doubanfm(object):
 
         self.get_channels()
 
-        title = '豆瓣FM' + ' ' * 32
+        title = '酷我FM' + ' ' * 32
         if self.douban_account:
-            title += '豆瓣已登录'
+            title += '酷我已登录'
         else:
-            title += '豆瓣未登陆'
+            title += '酷我未登陆'
         title += ' ' * 3
         if self.scrobbling:
             title += 'Last.fm 已登录'
@@ -165,7 +167,8 @@ class Doubanfm(object):
         try:
             return self.__dict__[name]
         except KeyError:
-            # Combine self.config.__dict__ and self.config.__dict__ for convenience
+            # Combine self.config.__dict__ and self.config.__dict__ for
+            # convenience
             return self.config.__dict__[name]
 
     # Some useful decorators
@@ -201,16 +204,19 @@ class Doubanfm(object):
                 self.channels = deque(self.douban.get_channels())
 
     def _choose_channel(self, channel):
+        logging.info("choose channel %d", channel)
         self.current_channel = channel
         self.current_play_list = deque(
             self.douban.get_new_play_list(self.current_channel))
+        logging.info("current_play_list %s", self.current_play_list)
 
     def extend_playlist_if_needed(self):
         count_of_remaining_songs = len(self.current_play_list)
         logger.debug(
             '{0} tracks remaining in the playlist'.format(count_of_remaining_songs))
         if count_of_remaining_songs == 1:
-            # There is only one track remaining in queue, extend the playing list
+            # There is only one track remaining in queue, extend the playing
+            # list
             playing_list = self.douban.get_playing_list(
                 self.current_song.sid, self.current_channel)
             logger.debug('Got {0} more tracks'.format(len(playing_list)))
@@ -226,7 +232,7 @@ class Doubanfm(object):
         self.update_ui_for_now_playing()
         self.scrobble_now_playing()
         # Stop current song if any song is playing
-        self.player.stop()  
+        self.player.stop()
         self.player.play(self.current_song)
         self.extend_playlist_if_needed()
 
@@ -378,7 +384,7 @@ class Doubanfm(object):
 
 
 def main():
-    fm = Doubanfm()
+    fm = kuwofm()
     fm.start()
 
 if __name__ == "__main__":

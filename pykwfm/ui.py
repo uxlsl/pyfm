@@ -43,8 +43,8 @@ class ChannelListBox(urwid.ListBox):
         if key == ('n'):
             urwid.emit_signal(self, 'skip')
 
-        if key == ('l'):
-            urwid.emit_signal(self, 'rate')
+        # if key == ('l'):
+        #     urwid.emit_signal(self, 'rate')
 
-        if key == ('t'):
-            urwid.emit_signal(self, 'trash')
+        # if key == ('t'):
+        #     urwid.emit_signal(self, 'trash')
