@@ -14,9 +14,7 @@ class Player(object):
     def detect_external_players(self):
         supported_external_players = [
             ["mpv", "--really-quiet"],
-            ["mplayer", "-really-quiet"
-             '-cache', '1024',
-             '-cache-min', '0.1'],
+            ["mplayer", "-really-quiet"],
             ["mpg123", "-q"]
         ]
 

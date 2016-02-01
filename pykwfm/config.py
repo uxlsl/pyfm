@@ -13,7 +13,7 @@ except NameError:
     pass
 
 HOME_PATH = os.getenv('HOME')
-BASIC_PATH = os.path.join(HOME_PATH, '.pyfm')
+BASIC_PATH = os.path.join(HOME_PATH, '.pykwfm')
 ACCOUNT_CACHE_PATH = os.path.join(BASIC_PATH, 'account_cache.json')
 CHANNELS_CACHE_PATH = os.path.join(BASIC_PATH, 'channels_cache.json')
 
@@ -48,8 +48,8 @@ class Config(object):
         self.channels_cache_path = CHANNELS_CACHE_PATH
 
     def do_config(self):
-        self.email = input('豆瓣账户 (Email地址): ') or None
-        self.password = getpass('豆瓣密码: ') or None
+        self.email = input('酷我账户 (Email地址): ') or None
+        self.password = getpass('酷我密码: ') or None
         self.last_fm_username = input('Last.fm 用户名: ') or None
         password = getpass('Last.fm 密码: ') or None
         if password is None:
