@@ -1,8 +1,7 @@
 酷我FM命令行播放器
 ==================
 
-.. image:: https://badge.fury.io/py/pyfm.png
-    :target: http://badge.fury.io/py/pyfm
+.. image:: http://7xnnj6.com1.z0.glb.clouddn.com/kwfm.png
 
 
 克隆pyfm, 并使得kwplayer(https://github.com/LiuLang/kwplayer)的接口,修改如来!
