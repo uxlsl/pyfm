@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from collections import defaultdict
+from threading import Thread
 import subprocess
 import logging
 from kuwo.Net import (
@@ -63,7 +64,8 @@ class Kuwo:
         self.channel_songs = {}
         self.channel_cur = defaultdict(lambda: -1)
 
-    def get_song_length(self, song_link):
+    @staticmethod
+    def get_song_length(song_link):
         # bad idea!
         for _ in range(3):
             cmd = 'mplayer -vo null -ao null -frames 0 -identify {}| grep ID_LENGTH'.format(
@@ -81,6 +83,11 @@ class Kuwo:
         else:
             return 0
 
+    def dig_songs_length(self):
+        for i in self.songs:
+            if i['length'] <= 0:
+                i['length'] = self.get_song_length(i['url'])
+
     def change_songs_to_douban(self, song):
         douban_song = {
             u'aid': u'',
@@ -90,7 +97,7 @@ class Kuwo:
             u'artist': u'',
             u'file_ext': u'mp4',
             u'kbps': u'128',
-            u'length': 0,
+            u'length': -1,
             u'like': 1,
             u'picture': u'',
             u'sha256': u'',
@@ -115,7 +122,6 @@ class Kuwo:
             path_exists, song_link, song_path = get_song_link(
                 song, {'audio': 3, 'song-dir': '/tmp'})
         douban_song['url'] = song_link
-        douban_song['length'] = self.get_song_length(song_link)
         return douban_song
 
     def get_radio_songs(self, channel):
@@ -127,7 +133,7 @@ class Kuwo:
             self.songs.append(
                 self.change_songs_to_douban(i)
             )
-
+        Thread(target=self.dig_songs_length).start()
         return self.songs
 
     def do_login(self):
