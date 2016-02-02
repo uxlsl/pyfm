@@ -1,8 +1,6 @@
 酷我FM命令行播放器
 ==================
 
-.. image:: http://7xnnj6.com1.z0.glb.clouddn.com/kwfm.png
-
 
 克隆pyfm, 并使得kwplayer(https://github.com/LiuLang/kwplayer)的接口,修改如来!
 使用Python编写的酷我FM命令行播放器
@@ -100,4 +98,4 @@ The MIT License
 
 其中\ `scrobbler.py <https://github.com/skyline75489/pyfm/blob/master/pyfm/scrobbler.py>`__\ 遵循GPLv3协议
 
-.. |Screenshot| image:: https://skyline75489.github.io/img/pyfm/screenshot.png
+.. |Screenshot| image:: http://7xnnj6.com1.z0.glb.clouddn.com/kwfm.png
