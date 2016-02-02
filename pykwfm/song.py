@@ -2,8 +2,6 @@ import logging
 
 logger = logging.getLogger()
 
-from .kuwo import Kuwo
-
 
 class Song(object):
 
@@ -23,8 +21,6 @@ class Song(object):
 
         self.album_title = song_json['albumtitle']
 
-        if song_json['length'] <= 0:
-            song_json['length'] = Kuwo.get_song_length(song_json['url'])
         self.length_in_sec = song_json['length']
 
         # Process the length of the song

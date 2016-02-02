@@ -225,15 +225,20 @@ class kuwofm(object):
     def _play_track(self):
         _song = self.current_play_list.popleft()
         self.current_song = Song(_song)
-
-        self.notify_now_playing()
-        self.song_change_alarm = self.main_loop.set_alarm_in(self.current_song.length_in_sec,
-                                                             self.next_song, None)
-        self.update_ui_for_now_playing()
-        self.scrobble_now_playing()
         # Stop current song if any song is playing
         self.player.stop()
         self.player.play(self.current_song)
+        if self.current_song.length_in_sec < 0:
+            # get song length in player
+            self.current_song.length_in_sec = self.player.get_song_length()
+
+        self.notify_now_playing()
+        self.song_change_alarm = self.main_loop.set_alarm_in(
+            self.current_song.length_in_sec,
+            self.next_song, None)
+        self.update_ui_for_now_playing()
+        self.scrobble_now_playing()
+
         self.extend_playlist_if_needed()
 
     def update_ui_for_now_playing(self):

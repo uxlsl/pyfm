@@ -133,7 +133,6 @@ class Kuwo:
             self.songs.append(
                 self.change_songs_to_douban(i)
             )
-        Thread(target=self.dig_songs_length).start()
         return self.songs
 
     def do_login(self):
